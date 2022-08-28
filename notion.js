@@ -38,19 +38,25 @@ async function *getAllEvents() {
 	}
 }
 
+function formatDate(date) {
+	return date.split('-').map(x => parseInt(x, 10));
+}
+
 async function getIcsEvents() {
 	const events = [];
-	for await (const event of getAllEvents()) {
+	for (const event of await getEventList()) {
 		const title = (await getProperty(event, 'Name')).results[0]?.title.text.content ?? 'Unnamed event',
 			date = (await getProperty(event, prop)).date;
 		events.push({
 			productId: databaseId,
 			uid: event.id,
 			startOutputType: 'local',
-			start: date.start.split('-').map(x => parseInt(x, 10)),
-			end: (date.end ?? date.start).split('-').map(x => parseInt(x, 10)),
+			start: formatDate(date.start),
+			end: formatDate(date.end ?? date.start),
 			title,
 			alarms: [],
+			description: event.url,
+			url: event.url
 		});
 	}
 	return events;
