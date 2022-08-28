@@ -30,4 +30,4 @@ I run it on my main web server under an unguessable URL which seems like enough 
 
 # Contributing
 
-I made this just for myself so there's a bunch of stuff it can't do because I don't need it, such as proper security, pulling in the page body or support multiple databases. Feel free to add it and make a pull request. There's no process. Just be sensible.
+I made this just for myself so there's a bunch of stuff it can't do because I don't need it, such as proper security, handling the API rate limits, pulling in the page body or support multiple databases. Feel free to add it and make a pull request. There's no process. Just be sensible.
