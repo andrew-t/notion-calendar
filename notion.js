@@ -7,16 +7,18 @@ const notion = new Client({ auth: apiKey });
 const oneDay = 1000 * 60 * 60 * 24,
 	sixMonths = oneDay * 30 * 6;
 
-async function getEventList({ id, prop }) {
+async function getEventList({ id, prop, filter }) {
+	const dateFilter = {
+		property: prop,
+		date: {
+			on_or_after: new Date(Date.now() - sixMonths).toISOString().substring(0, 10),
+		}
+	};
 	const response = await notion.databases.query({
 		database_id: id,
-		filter: {
-			property: prop,
-			date: {
-				on_or_after: new Date(Date.now() - sixMonths).toISOString().substring(0, 10),
-			}
-		}
+		filter: filter ? { and: [ filter, dateFilter ] } : dateFilter
 	});
+	console.log(JSON.stringify(response.results, null, 2))
 	return response.results;
 }
 
