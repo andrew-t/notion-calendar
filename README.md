@@ -12,17 +12,29 @@ Next, create a file called `creds.json`, which looks like this:
 
 ```json
 {
-  "databaseId": "somehex",
-  "apiKey": "secret_somecode",
-  "prop": "Date"
+	"apiKey": "xyz",
+	"databases": [
+		{
+			"id": "xyz",
+			"prop": "Date"
+		},
+		{
+			"id": "xyz",
+			"prop": "Due",
+			"filter": { "and" : [
+				{ "property": "Status", "status": { "does_not_equal": "Done" } },
+				{ "property": "Status", "status": { "does_not_equal": "Rejected" } }
+			] }
+		}
+	]
 }
+
 ```
 
-The database ID is the string of hex that identifies the page in Notion. It happens to be a UUID presented without hyphens but that's not important. Go to the main database page and it's the bit in the URL after `notion.so/[your_username]/` and before any `?` parameters.
-
-The API key you can get by creating an integration in the settings menu. Remember to share the database page with the integration using the 'share' menu on the database page.
-
-"Prop" is the text name of the property that stores the date. It'll be something like "Date" or "When" or suchlike depending what you called it.
+* The database IDs are the string of hex that identifies the page in Notion. It happens to be a UUID presented without hyphens but that's not important. Go to the main database page and it's the bit in the URL after `notion.so/[your_username]/` and before any `?` parameters.
+* The API key you can get by creating an integration in the settings menu. Remember to share the database page with the integration using the 'share' menu on the database page.
+* `prop` is the text name of the property that stores the date. It'll be something like "Date" or "When" or suchlike depending what you called it.
+* `filter` is a standard [Notion Filter object](https://developers.notion.com/reference/post-database-query-filter#type-specific-filter-conditions).
 
 Lastly, run `node index.js` to start the server. Any URL you hit will show the ICS file so point Google Calendar at literally any of them and it should work.
 
